@@ -9,7 +9,6 @@ import { newsApi } from '../data/api';
 class App extends Component {
   state = { 
     newsData: [],
-    totalResults: 0,
     loading: true
   }
 
@@ -17,7 +16,6 @@ class App extends Component {
     newsApi().then(data => {
       this.setState({
         newsData: data.articles,
-        totalResults: data.totalResults,
         loading: false
       })
     })
@@ -32,7 +30,7 @@ class App extends Component {
   }
    
   render() { 
-    const { loading, newsData, totalResults } = this.state;
+    const { loading, newsData } = this.state;
     return (
       <div className="App">
         <Header title="News React" />
@@ -40,8 +38,8 @@ class App extends Component {
           <div className="row">
             <div className="col-12 col-md-8 offset-md-2">
               {loading && this.renderLoading()}
-              {!loading && totalResults <= 0 && this.renderDataEmpty()}
-              {!loading && totalResults > 0 && newsData.map((article, index) => {
+              {!loading && newsData.length <= 0 && this.renderDataEmpty()}
+              {!loading && newsData.length > 0 && newsData.map((article, index) => {
                 return <Card
                   key={index}
                   author={article.author}
